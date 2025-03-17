@@ -14,19 +14,15 @@ public class PublicService {
     private String serviceName;
     private String description;
     private String category;
-    private Citizen citizenId;
-    private Business businessId;
 
     public PublicService() {
     }
 
-    public PublicService(String serviceId, String serviceName, String description, String category, Citizen citizenId, Business businessId) {
+    public PublicService(String serviceId, String serviceName, String description, String category) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.description = description;
         this.category = category;
-        this.citizenId = citizenId;
-        this.businessId = businessId;
     }
 
     public String getServiceId() {
@@ -61,25 +57,9 @@ public class PublicService {
         this.category = category;
     }
 
-    public Citizen getCitizenId() {
-        return citizenId;
-    }
-
-    public void setCitizenId(Citizen citizenId) {
-        this.citizenId = citizenId;
-    }
-
-    public Business getBusinessId() {
-        return businessId;
-    }
-
-    public void setBusinessId(Business businessId) {
-        this.businessId = businessId;
-    }
-
     @Override
     public String toString() {
-        return "PublicService{" + "serviceId=" + serviceId + ", serviceName=" + serviceName + ", description=" + description + ", category=" + category + ", citizenId=" + citizenId + ", businessId=" + businessId + '}';
+        return "PublicService{" + "serviceId=" + serviceId + ", serviceName=" + serviceName + ", description=" + description + ", category=" + category + '}';
     }
 
 }

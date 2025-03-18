@@ -7,14 +7,14 @@ public class Citizen {
     private String citizenId;
     private String phoneNumber;
     private String address;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String name;
     private String emailAddress;
 
     public Citizen() {
     }
 
-    public Citizen(String citizenId, String phoneNumber, String address, Date dateOfBirth, String name, String emailAddress) {
+    public Citizen(String citizenId, String phoneNumber, String address, String dateOfBirth, String name, String emailAddress) {
         this.citizenId = citizenId;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -47,11 +47,11 @@ public class Citizen {
         this.address = address;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

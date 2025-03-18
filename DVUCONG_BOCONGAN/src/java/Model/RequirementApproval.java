@@ -4,8 +4,6 @@
  */
 package Model;
 
-import java.util.Date;
-
 /**
  *
  * @author DELL
@@ -13,21 +11,23 @@ import java.util.Date;
 public class RequirementApproval {
 
     private String requestId;
-    private String applicantId;
     private String applicantType;
+    private Citizen citizenId;
+    private Business businessId;
     private PublicService serviceId;
     private String details;
-    private Date submissionDate;
+    private String submissionDate;
     private String status;
     private GovernmentAgency agencyId;
 
     public RequirementApproval() {
     }
 
-    public RequirementApproval(String requestId, String applicantId, String applicantType, PublicService serviceId, String details, Date submissionDate, String status, GovernmentAgency agencyId) {
+    public RequirementApproval(String requestId, String applicantType, Citizen citizenId, Business businessId, PublicService serviceId, String details, String submissionDate, String status, GovernmentAgency agencyId) {
         this.requestId = requestId;
-        this.applicantId = applicantId;
         this.applicantType = applicantType;
+        this.citizenId = citizenId;
+        this.businessId = businessId;
         this.serviceId = serviceId;
         this.details = details;
         this.submissionDate = submissionDate;
@@ -43,20 +43,28 @@ public class RequirementApproval {
         this.requestId = requestId;
     }
 
-    public String getApplicantId() {
-        return applicantId;
-    }
-
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
-    }
-
     public String getApplicantType() {
         return applicantType;
     }
 
     public void setApplicantType(String applicantType) {
         this.applicantType = applicantType;
+    }
+
+    public Citizen getCitizenId() {
+        return citizenId;
+    }
+
+    public void setCitizenId(Citizen citizenId) {
+        this.citizenId = citizenId;
+    }
+
+    public Business getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(Business businessId) {
+        this.businessId = businessId;
     }
 
     public PublicService getServiceId() {
@@ -75,11 +83,11 @@ public class RequirementApproval {
         this.details = details;
     }
 
-    public Date getSubmissionDate() {
+    public String getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Date submissionDate) {
+    public void setSubmissionDate(String submissionDate) {
         this.submissionDate = submissionDate;
     }
 
@@ -101,7 +109,7 @@ public class RequirementApproval {
 
     @Override
     public String toString() {
-        return "RequirementApproval{" + "requestId=" + requestId + ", applicantId=" + applicantId + ", applicantType=" + applicantType + ", serviceId=" + serviceId + ", details=" + details + ", submissionDate=" + submissionDate + ", status=" + status + ", agencyId=" + agencyId + '}';
+        return "RequirementApproval{" + "requestId=" + requestId + ", applicantId=" + applicantType + ", citizenId=" + citizenId + ", businessId=" + businessId + ", serviceId=" + serviceId + ", details=" + details + ", submissionDate=" + submissionDate + ", status=" + status + ", agencyId=" + agencyId + '}';
     }
 
 }

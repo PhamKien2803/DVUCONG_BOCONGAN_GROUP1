@@ -1,60 +1,51 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package Controller;
 
+import Model.RequirementApproval;
+import Services.RequirementApprovalDB;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
 
-/**
- *
- * @author DELL
- */
-@WebServlet(name="RequirementApprovalController", urlPatterns={"/RequirementApprovalController"})
+@WebServlet(name = "RequirementApprovalController", urlPatterns = {"/approval-procedure"})
 public class RequirementApprovalController extends HttpServlet {
-   
-   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RequirementApprovalController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RequirementApprovalController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
-    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Lấy danh sách yêu cầu cần duyệt từ database
+        RequirementApprovalDB reqDB = new RequirementApprovalDB();
+        String agencyId = request.getParameter("agencyId");
+        if (agencyId == null || agencyId.isEmpty()) {
+            agencyId = "defaultAgencyId";
+        }
+        ArrayList<RequirementApproval> requestList = reqDB.getProcedureIdentification(agencyId);
+
+        // Gửi danh sách yêu cầu đến trang JSP
+        request.setAttribute("requestList", requestList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("RequirementApproval.jsp");
+        dispatcher.forward(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
-
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet để lấy danh sách yêu cầu phê duyệt";
+    }
 }

@@ -10,10 +10,10 @@ package Model;
  */
 public class UserAccount {
 
-    private int accountId;
+    private String accountId;
     private String username;
     private String password;
-    private String role;
+    private int role;
     private Citizen citizenId;
     private Business businessId;
     private GovernmentAgency agencyId;
@@ -23,7 +23,7 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(int accountId, String username, String password, String role, Citizen citizenId, Business businessId, GovernmentAgency agencyId, Admin adminId, boolean isActive) {
+    public UserAccount(String accountId, String username, String password, int role, Citizen citizenId, Business businessId, GovernmentAgency agencyId, Admin adminId, boolean isActive) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
@@ -35,11 +35,11 @@ public class UserAccount {
         this.isActive = isActive;
     }
 
-    public int getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
@@ -59,11 +59,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

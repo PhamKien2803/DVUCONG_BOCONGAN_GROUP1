@@ -8,8 +8,7 @@ import Model.Citizen;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.UUID;
+
 
 /**
  *
@@ -19,7 +18,7 @@ public class CitizenDB extends DBContext {
 
     public static void main(String[] args) {
         CitizenDB db = new CitizenDB();
-        Citizen list = db.getCitizenInforById("CIT001");
+        Citizen list = db.getCitizenInforById(8);
         System.out.println(list);
 
     }
@@ -56,18 +55,18 @@ public class CitizenDB extends DBContext {
         return citizenId;
     }
 
-    public Citizen getCitizenInforById(String citizenId) {
+    public Citizen getCitizenInforById(int citizenId) {
         Citizen citizen = null;
         try {
             String sql = "SELECT [citizenId], [phoneNumber], [address], [dateOfBirth], [name], [emailAddress] "
                     + "FROM [DVUCONG_BOCONGAN].[dbo].[Citizen] WHERE citizenId = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, citizenId);
+            stm.setInt(1, citizenId);
             ResultSet rs = stm.executeQuery();
 
             if (rs.next()) {
                 citizen = new Citizen();
-                citizen.setCitizenId(rs.getString("citizenId"));
+                citizen.setCitizenId(rs.getInt("citizenId"));
                 citizen.setPhoneNumber(rs.getString("phoneNumber"));
                 citizen.setAddress(rs.getString("address"));
                 citizen.setDateOfBirth(rs.getString("dateOfBirth"));

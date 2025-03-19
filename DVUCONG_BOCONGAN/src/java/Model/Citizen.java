@@ -1,10 +1,9 @@
 package Model;
 
-import java.util.Date;
 
 public class Citizen {
 
-    private String citizenId;
+    private int citizenId;
     private String phoneNumber;
     private String address;
     private String dateOfBirth;
@@ -14,7 +13,7 @@ public class Citizen {
     public Citizen() {
     }
 
-    public Citizen(String citizenId, String phoneNumber, String address, String dateOfBirth, String name, String emailAddress) {
+    public Citizen(int citizenId, String phoneNumber, String address, String dateOfBirth, String name, String emailAddress) {
         this.citizenId = citizenId;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -23,11 +22,11 @@ public class Citizen {
         this.emailAddress = emailAddress;
     }
 
-    public String getCitizenId() {
+    public int getCitizenId() {
         return citizenId;
     }
 
-    public void setCitizenId(String citizenId) {
+    public void setCitizenId(int citizenId) {
         this.citizenId = citizenId;
     }
 

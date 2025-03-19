@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!--IdentificationcardProceduce.jsp-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -181,6 +181,18 @@
                 }
             });
         </script>
+        <script>
+            window.onload = function () {
+                var message = "<c:out value='${sessionScope.successMessage}' />";
+                if (message.trim() !== "") {
+                    alert(message);
+            <% session.removeAttribute("successMessage"); %> 
+                }
+            };
+        </script>
+
+
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>

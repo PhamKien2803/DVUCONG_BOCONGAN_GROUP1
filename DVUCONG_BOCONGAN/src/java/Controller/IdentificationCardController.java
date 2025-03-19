@@ -38,7 +38,7 @@ public class IdentificationCardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Lấy thông tin từ form
         String fullName = request.getParameter("fullName");
         String phone = request.getParameter("phone");
@@ -75,7 +75,7 @@ public class IdentificationCardController extends HttpServlet {
 
         // Tạo đối tượng Citizen
         Citizen citizen = new Citizen();
-        citizen.setCitizenId(citizenId);
+        citizen.setCitizenId(Integer.parseInt(citizenId));
         citizen.setName(fullName);
         citizen.setPhoneNumber(phone);
         citizen.setAddress(address);
@@ -97,7 +97,7 @@ public class IdentificationCardController extends HttpServlet {
         String status = "Chờ xử lý";
         requimentDB.createProcedureIdentification(citizen, "Yêu cầu cấp căn cước công dân mới", service, reason, submissionDate, status);
 
-        request.setAttribute("success", "Nộp đơn thành công!");
+        request.getSession().setAttribute("successMessage", "Gửi yêu cầu thành công!");
         response.sendRedirect("procedure-identification");
 
     }

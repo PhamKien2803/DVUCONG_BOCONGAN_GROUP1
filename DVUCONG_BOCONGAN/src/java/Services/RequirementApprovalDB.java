@@ -59,7 +59,7 @@ public class RequirementApprovalDB extends DBContext {
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
-            stm.setString(1, citizen.getCitizenId());
+            stm.setInt(1, citizen.getCitizenId());
             stm.setString(2, applicantType);
             stm.setString(3, service.getServiceId());
             stm.setString(4, details);
@@ -108,7 +108,7 @@ public class RequirementApprovalDB extends DBContext {
 
                 // Set thông tin công dân
                 Citizen citizen = new Citizen();
-                citizen.setCitizenId(rs.getString("citizenId"));
+                citizen.setCitizenId(rs.getInt("citizenId"));
                 citizen.setName(rs.getString("name"));
                 citizen.setPhoneNumber(rs.getString("phoneNumber"));
                 citizen.setAddress(rs.getString("address"));

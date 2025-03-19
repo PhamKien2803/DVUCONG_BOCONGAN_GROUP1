@@ -29,7 +29,7 @@ public class LoginGovernmentAgency extends HttpServlet {
         String password = request.getParameter("password");
 
         UserAccountDB userDB = new UserAccountDB();
-        UserAccount user = userDB.login(username, password, "3"); // Role 3 là Government Agency
+        UserAccount user = userDB.GovermentLogin(username, password, "3"); // Role 3 là Government Agency
 
         if (user != null) {
             request.getSession().setAttribute("loggedInUser", user);

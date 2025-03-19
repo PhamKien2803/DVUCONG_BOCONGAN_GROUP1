@@ -157,4 +157,34 @@ public class RequirementApprovalDB extends DBContext {
         return false;
     }
 
+    public void createApprovalRequest(
+            String requestId, PublicService service,
+            String applicantType, String details, String submissionDate,
+            String status, int agencyId) {
+
+        String sql = "INSERT INTO [dbo].[RequirementApproval] "
+                + "([businessId], [serviceId], [applicantType], "
+                + "[details], [submissionDate], [status], [agencyId]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, "BIZ001");
+            stm.setString(2, service.getServiceId());
+            stm.setString(3, applicantType);
+            stm.setString(4, details);
+            stm.setString(5, submissionDate);
+            stm.setString(6, status);
+            stm.setInt(7, 1);
+
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Yêu cầu phê duyệt đã được tạo thành công!");
+            } else {
+                System.out.println("⚠️ Không thể tạo yêu cầu phê duyệt.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi tạo yêu cầu phê duyệt: " + e.getMessage());
+        }
+    }
+
 }

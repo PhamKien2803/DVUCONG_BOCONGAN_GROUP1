@@ -162,6 +162,24 @@
                     });
                 }
             </script>
+            <script>
+                window.onload = function () {
+                    var message = "<c:out value='${sessionScope.message}' />";
+                    var error = "<c:out value='${sessionScope.error}' />";
+
+                    if (message.trim() !== "") {
+                        alert(message);
+                    }
+                    if (error.trim() !== "") {
+                        alert(error);
+                    }
+
+                    // Xóa session để không hiện lại khi load lại trang
+                <% session.removeAttribute("message"); %>
+                <% session.removeAttribute("error"); %>
+                };
+            </script>
+
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>

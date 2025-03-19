@@ -32,15 +32,16 @@ public class RequirementApprovalController extends HttpServlet {
                     success = reqDB.updateStatus(requestId, "Bị từ chối");
                     break;
                 case "cancel":
-                    success = reqDB.updateStatus(requestId, "Chờ xử lý"); // Quay lại trạng thái ban đầu
+                    success = reqDB.updateStatus(requestId, "Chờ xử lý");
                     break;
             }
 
             if (success) {
-                request.setAttribute("message", "Cập nhật trạng thái thành công!");
+                request.getSession().setAttribute("message", "Xử lý đơn thành công!");
             } else {
-                request.setAttribute("error", "Cập nhật trạng thái thất bại!");
+                request.getSession().setAttribute("error", "Cập nhật trạng thái thất bại!");
             }
+
         }
 
         // Lấy danh sách yêu cầu cập nhật

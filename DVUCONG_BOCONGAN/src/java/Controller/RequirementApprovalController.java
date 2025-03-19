@@ -17,17 +17,36 @@ public class RequirementApprovalController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // Lấy danh sách yêu cầu cần duyệt từ database
         RequirementApprovalDB reqDB = new RequirementApprovalDB();
-        String agencyId = request.getParameter("agencyId");
-        if (agencyId == null || agencyId.isEmpty()) {
-            agencyId = "defaultAgencyId";
-        }
-        ArrayList<RequirementApproval> requestList = reqDB.getProcedureIdentification(agencyId);
 
-        // Gửi danh sách yêu cầu đến trang JSP
+        String action = request.getParameter("action");
+        String requestId = request.getParameter("requestId");
+
+        if (action != null && requestId != null) {
+            boolean success = false;
+            switch (action) {
+                case "approve":
+                    success = reqDB.updateStatus(requestId, "Đã duyệt");
+                    break;
+                case "reject":
+                    success = reqDB.updateStatus(requestId, "Bị từ chối");
+                    break;
+                case "cancel":
+                    success = reqDB.updateStatus(requestId, "Chờ xử lý"); // Quay lại trạng thái ban đầu
+                    break;
+            }
+
+            if (success) {
+                request.setAttribute("message", "Cập nhật trạng thái thành công!");
+            } else {
+                request.setAttribute("error", "Cập nhật trạng thái thất bại!");
+            }
+        }
+
+        // Lấy danh sách yêu cầu cập nhật
+        ArrayList<RequirementApproval> requestList = reqDB.getProcedureIdentification();
         request.setAttribute("requestList", requestList);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("RequirementApproval.jsp");
         dispatcher.forward(request, response);
     }
@@ -46,6 +65,6 @@ public class RequirementApprovalController extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Servlet để lấy danh sách yêu cầu phê duyệt";
+        return "Servlet để lấy danh sách yêu cầu phê duyệt cho agencyId = 1";
     }
 }

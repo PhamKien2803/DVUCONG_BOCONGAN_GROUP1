@@ -10,36 +10,36 @@ package Model;
  */
 public class UserAccount {
 
-    private String accountId;
+    private int accountId;
     private String username;
     private String password;
     private String role;
     private Citizen citizenId;
     private Business businessId;
-    private GovernmentAgency citizen;
+    private GovernmentAgency agencyId;
     private Admin adminId;
     private boolean isActive;
 
     public UserAccount() {
     }
 
-    public UserAccount(String accountId, String username, String password, String role, Citizen citizenId, Business businessId, GovernmentAgency citizen, Admin adminId, boolean isActive) {
+    public UserAccount(int accountId, String username, String password, String role, Citizen citizenId, Business businessId, GovernmentAgency agencyId, Admin adminId, boolean isActive) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
         this.role = role;
         this.citizenId = citizenId;
         this.businessId = businessId;
-        this.citizen = citizen;
+        this.agencyId = agencyId;
         this.adminId = adminId;
         this.isActive = isActive;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
@@ -83,12 +83,12 @@ public class UserAccount {
         this.businessId = businessId;
     }
 
-    public GovernmentAgency getCitizen() {
-        return citizen;
+    public GovernmentAgency getAgencyId() {
+        return agencyId;
     }
 
-    public void setCitizen(GovernmentAgency citizen) {
-        this.citizen = citizen;
+    public void setAgencyId(GovernmentAgency agencyId) {
+        this.agencyId = agencyId;
     }
 
     public Admin getAdminId() {
@@ -109,9 +109,7 @@ public class UserAccount {
 
     @Override
     public String toString() {
-        return "UserAccount{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", role=" + role + ", citizenId=" + citizenId + ", businessId=" + businessId + ", citizen=" + citizen + ", adminId=" + adminId + ", isActive=" + isActive + '}';
+        return "UserAccount{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", role=" + role + ", citizenId=" + citizenId + ", businessId=" + businessId + ", agencyId=" + agencyId + ", adminId=" + adminId + ", isActive=" + isActive + '}';
     }
-    
-    
 
 }

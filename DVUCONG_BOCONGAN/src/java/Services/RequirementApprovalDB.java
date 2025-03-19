@@ -20,26 +20,28 @@ import java.sql.ResultSet;
 public class RequirementApprovalDB extends DBContext {
 
     public static void main(String[] args) {
-        RequirementApprovalDB reqDB = new RequirementApprovalDB();
+        // Tạo đối tượng của RequirementApprovalDB (giả sử đã có kết nối DB)
+        RequirementApprovalDB db = new RequirementApprovalDB();
 
-        String agencyId = "";
-        ArrayList<RequirementApproval> requestList = reqDB.getProcedureIdentification(agencyId);
+        // Gọi hàm lấy danh sách yêu cầu có agencyId = 1
+        ArrayList<RequirementApproval> list = db.getProcedureIdentification();
 
-        System.out.println("🔹 Danh sách yêu cầu phê duyệt:");
-        for (RequirementApproval req : requestList) {
-            System.out.println("----------------------------------");
-            System.out.println("🆔 Mã yêu cầu: " + req.getRequestId());
-            System.out.println("👤 Công dân: " + req.getCitizenId().getName());
-            System.out.println("📌 Loại người nộp: " + req.getApplicantType());
-            System.out.println("🔎 Dịch vụ: " + req.getServiceId().getServiceName());
-            System.out.println("📅 Ngày nộp: " + req.getSubmissionDate());
-            System.out.println("📜 Chi tiết: " + req.getDetails());
-            System.out.println("📌 Trạng thái: " + req.getStatus());
-
-            if (req.getAgencyId() != null) {
-                System.out.println("🏛 Cơ quan xử lý: " + req.getAgencyId().getAgencyName());
-            } else {
-                System.out.println("🏛 Cơ quan xử lý: Chưa xác định");
+        // Kiểm tra danh sách lấy được
+        if (list.isEmpty()) {
+            System.out.println("⚠️ Không có yêu cầu nào được tìm thấy.");
+        } else {
+            System.out.println("✅ Danh sách yêu cầu phê duyệt:");
+            for (RequirementApproval req : list) {
+                System.out.println("----------------------------------");
+                System.out.println("🆔 Mã yêu cầu: " + req.getRequestId());
+                System.out.println("👤 Công dân: " + req.getCitizenId().getName());
+                System.out.println("📞 SĐT: " + req.getCitizenId().getPhoneNumber());
+                System.out.println("📌 Loại người nộp: " + req.getApplicantType());
+                System.out.println("🔎 Dịch vụ: " + req.getServiceId().getServiceName());
+                System.out.println("📅 Ngày nộp: " + req.getSubmissionDate());
+                System.out.println("📜 Chi tiết: " + req.getDetails());
+                System.out.println("📌 Trạng thái: " + req.getStatus());
+                System.out.println("🏢 Cơ quan xử lý: " + req.getAgencyId().getAgencyName());
             }
         }
     }
@@ -52,8 +54,8 @@ public class RequirementApprovalDB extends DBContext {
         try {
             String sql = "INSERT INTO [dbo].[RequirementApproval] "
                     + "([citizenId], [applicantType], "
-                    + "[serviceId], [details], [submissionDate], [status]) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
+                    + "[serviceId], [details], [submissionDate], [status], [agencyId]) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -63,6 +65,7 @@ public class RequirementApprovalDB extends DBContext {
             stm.setString(4, details);
             stm.setString(5, submissionDate);
             stm.setString(6, status);
+            stm.setInt(7, 1);
 
             int rowsAffected = stm.executeUpdate();
             if (rowsAffected > 0) {
@@ -75,99 +78,24 @@ public class RequirementApprovalDB extends DBContext {
         }
     }
 
-//    public ArrayList<RequirementApproval> getProcedureIdentification(String agencyId) {
-//        ArrayList<RequirementApproval> list = new ArrayList<>();
-//        try {
-//            String sql = "SELECT r.requestId, "
-//                    + "       c.citizenId, c.name, c.phoneNumber, c.address, c.emailAddress, c.dateOfBirth, "
-//                    + "       r.applicantType, "
-//                    + "       s.serviceId, s.serviceName, s.description, s.category, "
-//                    + "       r.details, r.submissionDate, r.status, "
-//                    + "       g.agencyId, g.agencyName, g.department, g.address AS agencyAddress, g.phoneNumber AS agencyPhone, g.emailAddress AS agencyEmail "
-//                    + "FROM RequirementApproval r "
-//                    + "LEFT JOIN Citizen c ON r.citizenId = c.citizenId "
-//                    + "LEFT JOIN PublicService s ON r.serviceId = s.serviceId "
-//                    + "LEFT JOIN GovernmentAgency g ON r.agencyId = g.agencyId "
-//                    + "WHERE r.agencyId IS NULL";
-//
-//            PreparedStatement stm = connection.prepareStatement(sql);
-////            stm.setString(1, agencyId);
-//            ResultSet rs = stm.executeQuery();
-//
-//            while (rs.next()) {
-//                RequirementApproval req = new RequirementApproval();
-//
-//                // Set thông tin yêu cầu phê duyệt
-//                req.setRequestId(rs.getString("requestId"));
-//                req.setApplicantType(rs.getString("applicantType"));
-//                req.setDetails(rs.getString("details"));
-//                req.setSubmissionDate(rs.getString("submissionDate"));
-//                req.setStatus(rs.getString("status"));
-//
-//                // Set thông tin công dân
-//                Citizen citizen = new Citizen();
-//                citizen.setCitizenId(rs.getString("citizenId"));
-//                citizen.setName(rs.getString("name"));
-//                citizen.setPhoneNumber(rs.getString("phoneNumber"));
-//                citizen.setAddress(rs.getString("address"));
-//                citizen.setEmailAddress(rs.getString("emailAddress"));
-//                citizen.setDateOfBirth(rs.getString("dateOfBirth"));
-//                req.setCitizenId(citizen);
-//
-//                // Set thông tin dịch vụ công
-//                PublicService service = new PublicService();
-//                service.setServiceId(rs.getString("serviceId"));
-//                service.setServiceName(rs.getString("serviceName"));
-//                service.setDescription(rs.getString("description"));
-//                service.setCategory(rs.getString("category"));
-//                req.setServiceId(service);
-//
-//                // Set thông tin cơ quan chính phủ (có thể null)
-//                if (rs.getString("agencyId") != null) {
-//                    GovernmentAgency agency = new GovernmentAgency();
-//                    agency.setAgencyId(rs.getString("agencyId"));
-//                    agency.setAgencyName(rs.getString("agencyName"));
-//                    agency.setDepartment(rs.getString("department"));
-//                    agency.setAddress(rs.getString("agencyAddress"));
-//                    agency.setPhoneNumber(rs.getString("agencyPhone"));
-//                    agency.setEmailAddress(rs.getString("agencyEmail"));
-//                    req.setAgencyId(agency);
-//                } else {
-//                    req.setAgencyId(null);
-//                }
-//
-//                list.add(req);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("❌ Lỗi khi lấy danh sách yêu cầu phê duyệt: " + e.getMessage());
-//        }
-//        return list;
-//    }
-    public ArrayList<RequirementApproval> getProcedureIdentification(String agencyId) {
+    public ArrayList<RequirementApproval> getProcedureIdentification() {
         ArrayList<RequirementApproval> list = new ArrayList<>();
         try {
-            // Nếu agencyId là null, bỏ điều kiện WHERE
+            // Truy vấn chỉ lấy các yêu cầu có agencyId = 1
             String sql = "SELECT r.requestId, "
                     + "       c.citizenId, c.name, c.phoneNumber, c.address, c.emailAddress, c.dateOfBirth, "
                     + "       r.applicantType, "
                     + "       s.serviceId, s.serviceName, s.description, s.category, "
                     + "       r.details, r.submissionDate, r.status, "
-                    + "       g.agencyId, g.agencyName, g.department, g.address AS agencyAddress, g.phoneNumber AS agencyPhone, g.emailAddress AS agencyEmail "
+                    + "       g.agencyId, g.agencyName, g.department, g.address AS agencyAddress, "
+                    + "       g.phoneNumber AS agencyPhone, g.emailAddress AS agencyEmail "
                     + "FROM RequirementApproval r "
                     + "LEFT JOIN Citizen c ON r.citizenId = c.citizenId "
                     + "LEFT JOIN PublicService s ON r.serviceId = s.serviceId "
-                    + "LEFT JOIN GovernmentAgency g ON r.agencyId = g.agencyId ";
-
-            if (agencyId != null) {
-                sql += " WHERE r.agencyId = ? OR r.agencyId IS NULL";
-            }
+                    + "LEFT JOIN GovernmentAgency g ON r.agencyId = g.agencyId "
+                    + "WHERE r.agencyId = 1";
 
             PreparedStatement stm = connection.prepareStatement(sql);
-
-            if (agencyId != null) {
-                stm.setString(1, agencyId);
-            }
-
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
@@ -196,19 +124,15 @@ public class RequirementApprovalDB extends DBContext {
                 service.setCategory(rs.getString("category"));
                 req.setServiceId(service);
 
-                // Set thông tin cơ quan chính phủ (có thể null)
-                if (rs.getString("agencyId") != null) {
-                    GovernmentAgency agency = new GovernmentAgency();
-                    agency.setAgencyId(rs.getString("agencyId"));
-                    agency.setAgencyName(rs.getString("agencyName"));
-                    agency.setDepartment(rs.getString("department"));
-                    agency.setAddress(rs.getString("agencyAddress"));
-                    agency.setPhoneNumber(rs.getString("agencyPhone"));
-                    agency.setEmailAddress(rs.getString("agencyEmail"));
-                    req.setAgencyId(agency);
-                } else {
-                    req.setAgencyId(null);
-                }
+                // Set thông tin cơ quan chính phủ
+                GovernmentAgency agency = new GovernmentAgency();
+                agency.setAgencyId(rs.getInt("agencyId"));
+                agency.setAgencyName(rs.getString("agencyName"));
+                agency.setDepartment(rs.getString("department"));
+                agency.setAddress(rs.getString("agencyAddress"));
+                agency.setPhoneNumber(rs.getString("agencyPhone"));
+                agency.setEmailAddress(rs.getString("agencyEmail"));
+                req.setAgencyId(agency);
 
                 list.add(req);
             }
@@ -216,6 +140,21 @@ public class RequirementApprovalDB extends DBContext {
             System.out.println("❌ Lỗi khi lấy danh sách yêu cầu phê duyệt: " + e.getMessage());
         }
         return list;
+    }
+
+    public boolean updateStatus(String requestId, String status) {
+        String sql = "UPDATE RequirementApproval SET status = ? WHERE requestId = ?";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql);) {
+
+            stm.setString(1, status);
+            stm.setString(2, requestId);
+            int rowsUpdated = stm.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

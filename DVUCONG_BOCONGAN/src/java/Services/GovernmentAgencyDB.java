@@ -34,7 +34,7 @@ public class GovernmentAgencyDB extends DBContext {
 
             if (rs.next()) {
                 agency = new GovernmentAgency();
-                agency.setAgencyId(rs.getString("agencyId"));
+                agency.setAgencyId(rs.getInt("agencyId"));
                 agency.setAgencyName(rs.getString("agencyName"));
                 agency.setDepartment(rs.getString("department"));
                 agency.setAddress(rs.getString("address"));

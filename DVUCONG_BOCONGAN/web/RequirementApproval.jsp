@@ -85,24 +85,6 @@
             <div class="table-container">
                 <h4 class="mb-3">Danh sách yêu cầu cần phê duyệt</h4>
 
-                <!-- Thanh tìm kiếm -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Nhập tên công dân...">
-                    </div>
-                    <div class="col-md-3">
-                        <select id="statusFilter" class="form-select">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="Chờ xử lý">Chờ xử lý</option>
-                            <option value="Đã duyệt">Đã duyệt</option>
-                            <option value="Từ chối">Từ chối</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-danger" onclick="filterTable()">Lọc kết quả</button>
-                    </div>
-                </div>
-
                 <!-- Bảng danh sách đơn -->
                 <table class="table table-bordered">
                     <thead class="table-dark">
@@ -120,8 +102,8 @@
                         <c:forEach var="request" items="${requestList}">
                             <tr>
                                 <td>${request.requestId}</td>
-                                <td>${request.citizen.name}</td>
-                                <td>${request.service.serviceName}</td>
+                                <td>${request.citizenId.name}</td>
+                                <td>${request.serviceId.serviceName}</td>
                                 <td>${request.details}</td>
                                 <td>${request.submissionDate}</td>
                                 <td class="${request.status eq 'Chờ xử lý' ? 'status-pending' :
@@ -130,17 +112,20 @@
                                         ${request.status}
                                     </td>
                                     <td>
-                                        <c:if test="${request.status eq 'Chờ xử lý'}">
-                                            <form action="ApproveRequestServlet" method="POST" class="d-inline">
-                                                <input type="hidden" name="requestId" value="${request.requestId}">
-                                                <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Duyệt</button>
-                                            </form>
-                                            <form action="ApproveRequestServlet" method="POST" class="d-inline">
-                                                <input type="hidden" name="requestId" value="${request.requestId}">
-                                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Từ chối</button>
-                                            </form>
-                                        </c:if>
+                                        <form action="approval-procedure" method="POST" class="d-inline">
+                                            <input type="hidden" name="requestId" value="${request.requestId}">
+                                            <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Duyệt</button>
+                                        </form>
+                                        <form action="approval-procedure" method="POST" class="d-inline">
+                                            <input type="hidden" name="requestId" value="${request.requestId}">
+                                            <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Từ chối</button>
+                                        </form>
+                                        <form action="approval-procedure" method="POST" class="d-inline">
+                                            <input type="hidden" name="requestId" value="${request.requestId}">
+                                            <button type="submit" name="action" value="cancel" class="btn btn-warning btn-sm">Hủy</button>
+                                        </form>
                                     </td>
+
                                 </tr>
                             </c:forEach>
 

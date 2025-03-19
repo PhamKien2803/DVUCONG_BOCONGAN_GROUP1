@@ -10,7 +10,7 @@ package Model;
  */
 public class GovernmentAgency {
 
-    private String agencyId;
+    private int agencyId;
     private String agencyName;
     private String department;
     private String address;
@@ -20,7 +20,7 @@ public class GovernmentAgency {
     public GovernmentAgency() {
     }
 
-    public GovernmentAgency(String agencyId, String agencyName, String department, String address, String phoneNumber, String emailAddress) {
+    public GovernmentAgency(int agencyId, String agencyName, String department, String address, String phoneNumber, String emailAddress) {
         this.agencyId = agencyId;
         this.agencyName = agencyName;
         this.department = department;
@@ -29,11 +29,11 @@ public class GovernmentAgency {
         this.emailAddress = emailAddress;
     }
 
-    public String getAgencyId() {
+    public int getAgencyId() {
         return agencyId;
     }
 
-    public void setAgencyId(String agencyId) {
+    public void setAgencyId(int agencyId) {
         this.agencyId = agencyId;
     }
 

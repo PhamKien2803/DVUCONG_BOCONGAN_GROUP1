@@ -110,15 +110,14 @@
                         <p>${selectedService.description}</p>
 
                         <!-- Hiển thị lỗi nếu có -->
-                        <c:if test="${not empty error}">
-                            <div class="error-message">${error}</div>
+                        <c:if test="${not empty param.success}">
+                            <div class="alert alert-success">${param.success}</div>
                         </c:if>
 
-                        <c:if test="${not empty success}">
-                            <div class="alert alert-success" role="alert">
-                                ${success}
-                            </div>
+                        <c:if test="${not empty param.error}">
+                            <div class="alert alert-danger">${param.error}</div>
                         </c:if>
+
 
                         <form id="cccdRequestForm" action="procedure-identification" method="POST">
                             <input type="hidden" name="serviceId" value="${selectedService.serviceId}">

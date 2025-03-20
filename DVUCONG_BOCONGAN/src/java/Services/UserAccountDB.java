@@ -4,6 +4,8 @@
  */
 package Services;
 
+import Model.Admin;
+import Model.Business;
 import Model.Citizen;
 import Model.GovernmentAgency;
 import Model.UserAccount;
@@ -11,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -157,10 +160,103 @@ public class UserAccountDB extends DBContext {
         return user;
     }
 
+    public List<UserAccount> getAllUsers() {
+        List<UserAccount> list = new ArrayList<>();
+        String sql = "SELECT accountId, username, password, role, citizenId, businessId, agencyId, adminId, isActive FROM UserAccount";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                UserAccount user = new UserAccount();
+                user.setAccountId(rs.getString("accountId"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getInt("role"));
+
+                // Gán Citizen
+                int citizenId = rs.getInt("citizenId");
+                if (citizenId != 0) {
+                    Citizen citizen = new Citizen();
+                    citizen.setCitizenId(citizenId);
+                    user.setCitizenId(citizen);
+                }
+
+                // Gán Business
+                String businessId = rs.getString("businessId");
+                if (businessId != null) {
+                    Business business = new Business();
+                    business.setBusinessId(businessId);
+                    user.setBusinessId(business);
+                }
+
+                // Gán GovernmentAgency
+                int agencyId = rs.getInt("agencyId");
+                if (agencyId != 0) {
+                    GovernmentAgency agency = new GovernmentAgency();
+                    agency.setAgencyId(agencyId);
+                    user.setAgencyId(agency);
+                }
+
+                // Gán Admin
+                String adminId = rs.getString("adminId");
+                if (adminId != null) {
+                    Admin admin = new Admin();
+                    admin.setAdminId(adminId);
+                    user.setAdminId(admin);
+                }
+
+                user.setIsActive(rs.getBoolean("isActive"));
+
+                list.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean updateAccountStatus(String accountId, int role, boolean isActive) {
+        String sql = "UPDATE UserAccount SET role = ?, isActive = ? WHERE accountId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, role);
+            ps.setBoolean(2, isActive);
+            ps.setString(3, accountId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
-        UserAccountDB db = new UserAccountDB();
-        db.userLogin("kien28", "123");
-        System.out.println(db);
+        // Giả sử bạn có constructor cho UserAccountDB hoặc connection đã được setup sẵn
+        UserAccountDB userAccountDB = new UserAccountDB();
+
+        // Gọi phương thức getAllUsers()
+        List<UserAccount> users = userAccountDB.getAllUsers();
+
+        // In kết quả ra màn hình
+        for (UserAccount user : users) {
+            System.out.println("Account ID: " + user.getAccountId());
+            System.out.println("Username: " + user.getUsername());
+            System.out.println("Role: " + user.getRole());
+
+            if (user.getCitizenId() != null) {
+                System.out.println("Citizen ID: " + user.getCitizenId().getCitizenId());
+            }
+            if (user.getBusinessId() != null) {
+                System.out.println("Business ID: " + user.getBusinessId().getBusinessId());
+            }
+            if (user.getAgencyId() != null) {
+                System.out.println("Agency ID: " + user.getAgencyId().getAgencyId());
+            }
+            if (user.getAdminId() != null) {
+                System.out.println("Admin ID: " + user.getAdminId().getAdminId());
+            }
+
+            System.out.println("Is Active: " + user.isIsActive());
+            System.out.println("----------------------");
+        }
     }
 
 }

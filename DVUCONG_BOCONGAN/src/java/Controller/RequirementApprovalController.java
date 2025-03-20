@@ -39,7 +39,7 @@ public class RequirementApprovalController extends HttpServlet {
             if (success) {
                 request.getSession().setAttribute("message", "Xử lý đơn thành công!");
             } else {
-                request.getSession().setAttribute("error", "Cập nhật trạng thái thất bại!");
+                request.getSession().setAttribute("error", "Xử lý đơn thất bại!");
             }
 
         }

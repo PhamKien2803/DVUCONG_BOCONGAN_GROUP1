@@ -19,32 +19,6 @@ import java.sql.ResultSet;
  */
 public class RequirementApprovalDB extends DBContext {
 
-    public static void main(String[] args) {
-        // Tạo đối tượng của RequirementApprovalDB (giả sử đã có kết nối DB)
-        RequirementApprovalDB db = new RequirementApprovalDB();
-
-        // Gọi hàm lấy danh sách yêu cầu có agencyId = 1
-        ArrayList<RequirementApproval> list = db.getProcedureIdentification();
-
-        // Kiểm tra danh sách lấy được
-        if (list.isEmpty()) {
-            System.out.println("⚠️ Không có yêu cầu nào được tìm thấy.");
-        } else {
-            System.out.println("✅ Danh sách yêu cầu phê duyệt:");
-            for (RequirementApproval req : list) {
-                System.out.println("----------------------------------");
-                System.out.println("🆔 Mã yêu cầu: " + req.getRequestId());
-                System.out.println("👤 Công dân: " + req.getCitizenId().getName());
-                System.out.println("📞 SĐT: " + req.getCitizenId().getPhoneNumber());
-                System.out.println("📌 Loại người nộp: " + req.getApplicantType());
-                System.out.println("🔎 Dịch vụ: " + req.getServiceId().getServiceName());
-                System.out.println("📅 Ngày nộp: " + req.getSubmissionDate());
-                System.out.println("📜 Chi tiết: " + req.getDetails());
-                System.out.println("📌 Trạng thái: " + req.getStatus());
-                System.out.println("🏢 Cơ quan xử lý: " + req.getAgencyId().getAgencyName());
-            }
-        }
-    }
 
     public void createProcedureIdentification(
             Citizen citizen, String applicantType,

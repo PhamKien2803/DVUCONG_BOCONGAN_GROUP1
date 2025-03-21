@@ -35,8 +35,8 @@
                         </td>
                         <td>
                             <select name="isActive" form="form_${user.accountId}">
-                            <option value="true" ${user.isIsActive() ? 'selected' : ''}>Hoạt động</option>
-                            <option value="false" ${!user.isIsActive() ? 'selected' : ''}>Không hoạt động</option>
+                            <option value="true" ${user.isIsActive() ? 'selected' : ''}>Block</option>
+                            <option value="false" ${!user.isIsActive() ? 'selected' : ''}>UnBlock</option>
                         </select>
                     </td>
                     <td>

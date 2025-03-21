@@ -19,7 +19,6 @@ import java.sql.ResultSet;
  */
 public class RequirementApprovalDB extends DBContext {
 
-
     public void createProcedureIdentification(
             Citizen citizen, String applicantType,
             PublicService service, String details, String submissionDate,
@@ -158,6 +157,38 @@ public class RequirementApprovalDB extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("❌ Lỗi khi tạo yêu cầu phê duyệt: " + e.getMessage());
+        }
+    }
+
+    public void createProcedureIdentification2(
+            int citizenId, String applicantType,
+            String service, String details, String submissionDate,
+            String status) {
+
+        try {
+            String sql = "INSERT INTO [dbo].[RequirementApproval] "
+                    + "([citizenId], [applicantType], "
+                    + "[serviceId], [details], [submissionDate], [status], [agencyId]) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+
+            stm.setInt(1, citizenId);
+            stm.setString(2, applicantType);
+            stm.setString(3, service);
+            stm.setString(4, details);
+            stm.setString(5, submissionDate);
+            stm.setString(6, status);
+            stm.setInt(7, 1);
+
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Thêm yêu cầu phê duyệt thành công!");
+            } else {
+                System.out.println("⚠️ Không thể thêm yêu cầu phê duyệt.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi thêm yêu cầu phê duyệt: " + e.getMessage());
         }
     }
 

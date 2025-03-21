@@ -4,10 +4,28 @@
  */
 package Services;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author DELL
  */
-public class VehicleRegistrationDB {
-    
+public class VehicleRegistrationDB extends DBContext {
+
+    public boolean addInformationVehicle(String ownerName, String vehicleType) {
+        String sql = "INSERT INTO VehicleRegistration (ownerName, vehicleType) VALUES (?, ?)";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, ownerName);
+            stm.setString(2, vehicleType);
+
+            int rowsAffected = stm.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

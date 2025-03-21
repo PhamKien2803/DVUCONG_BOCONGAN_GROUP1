@@ -65,6 +65,9 @@ public class Login extends HttpServlet {
             } else if (user.getRole() == 3) { // Government Agency
                 System.out.println("Điều hướng đến Government Agency");
                 response.sendRedirect("approval-procedure");
+            }else if (user.getRole() == 4) { // Government Agency
+                System.out.println("Điều hướng đến admin");
+                response.sendRedirect("adminView.jsp");
             } else {
                 System.out.println("Vai trò không hợp lệ: " + user.getRole());
                 session.setAttribute("error", "Vai trò không hợp lệ.");
